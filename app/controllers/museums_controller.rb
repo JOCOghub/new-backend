@@ -1,35 +1,52 @@
 class MuseumsController < ApplicationController
+  before_action :set_museum, only: [:show, :update, :destroy]
 
-    def index
-      # options = {
-      #    include: [:instruments]
-      #  }
-      # render({json: museum.all, include: [:instruments]})
-      # render json: museum.all, include: [instruments: {only: [:content]}], except: [:created_at, :updated_at]
-      render json: MuseumSerializer.new(Museum.all)
-      # render json: museumSerializer.new(museum.all, options)
+  # GET /museums
+  def index
+    @museums = Museum.all
+
+    render json: @museums
+  end
+
+  # GET /museums/1
+  def show
+    render json: @museum
+  end
+
+  # POST /museums
+  def create
+    @museum = Museum.new(museum_params)
+
+    if @museum.save
+      render json: @museum, status: :created, location: @museum
+    else
+      render json: @museum.errors, status: :unprocessable_entity
     end
-  
-    def create
-      museum = Museum.new(museum_params)
-      if museum.save
-        render json: MuseumSerializer.new(museum)
-      else
-        render json: {message: museum.errors.full_messages}
-      end
+  end
+
+  # PATCH/PUT /museums/1
+  def update
+    if @museum.update(museum_params)
+      render json: @museum
+    else
+      render json: @museum.errors, status: :unprocessable_entity
     end
-  
-    def destroy
-      museum = Museum.find_by(id: params[:id])
-      museum.destroy
-      render json: {message: "success"}
+  end
+
+  # DELETE /museums/1
+  def destroy
+    @museum.destroy
+    render json: @museum
+  end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_museum
+      @museum = Museum.find(params[:id])
     end
-  
-    private
-  
+
+    # Only allow a trusted parameter "white list" through.
     def museum_params
       params.require(:museum).permit(:name)
     end
-  
-  
-  end
+end

@@ -1,24 +1,52 @@
 class PaintingsController < ApplicationController
+  before_action :set_painting, only: [:show, :update, :destroy]
 
-    def create
-      painting = Painting.new(painting_params)
-      if painting.save
-        render json: PaintingSerializer.new(painting)
-      else
-        render json: {message: painting.errors.full_messages}
-      end
+  # GET /paintings
+  def index
+    @paintings = Painting.all
+
+    render json: @paintings
+  end
+
+  # GET /paintings/1
+  def show
+    render json: @painting
+  end
+
+  # POST /paintings
+  def create
+    @painting = Painting.new(painting_params)
+
+    if @painting.save
+      render json: @painting, status: :created, location: @painting
+    else
+      render json: @painting.errors, status: :unprocessable_entity
     end
-  
-    def destroy
-      painting = Painting.find_by(id: params[:id])
-      painting.destroy
-      render json: {message: "success"}
+  end
+
+  # PATCH/PUT /paintings/1
+  def update
+    if @painting.update(painting_params)
+      render json: @painting
+    else
+      render json: @painting.errors, status: :unprocessable_entity
+    end
+  end
+
+  # DELETE /paintings/1
+  def destroy
+    @painting.destroy
+    render json: @painting
+  end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_painting
+      @painting = Painting.find(params[:id])
     end
 
-    private
-  
+    # Only allow a trusted parameter "white list" through.
     def painting_params
       params.require(:painting).permit(:content, :museum_id)
     end
-  
-  end
+end
