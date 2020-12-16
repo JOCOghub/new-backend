@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 2) do
   end
 
   create_table "paintings", force: :cascade do |t|
-    t.string "content"
+    t.string "name"
     t.integer "museum_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
