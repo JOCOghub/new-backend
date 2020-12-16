@@ -1,19 +1,16 @@
 class PaintingsController < ApplicationController
   before_action :set_painting, only: [:show, :update, :destroy]
 
-  # GET /paintings
   def index
     @paintings = Painting.all
 
     render json: @paintings
   end
 
-  # GET /paintings/1
   def show
     render json: @painting
   end
 
-  # POST /paintings
   def create
     @painting = Painting.new(painting_params)
 
@@ -24,7 +21,6 @@ class PaintingsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /paintings/1
   def update
     if @painting.update(painting_params)
       render json: @painting
@@ -33,20 +29,18 @@ class PaintingsController < ApplicationController
     end
   end
 
-  # DELETE /paintings/1
   def destroy
     @painting.destroy
     render json: @painting
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+    
     def set_painting
       @painting = Painting.find(params[:id])
     end
 
-    # Only allow a trusted parameter "white list" through.
     def painting_params
-      params.require(:painting).permit(:content, :museum_id)
+      params.require(:painting).permit(:name, :museum_id)
     end
 end
