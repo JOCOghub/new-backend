@@ -1,8 +1,7 @@
 Rails.application.routes.draw do
-  resources :paintings
-  resources :museums
-
   resources :museums do 
-    resources :paintings
+    resources :paintings #add :only here? look at labs again  
   end
+                       
+  resources :paintings
 end

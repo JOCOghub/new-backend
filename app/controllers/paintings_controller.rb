@@ -1,15 +1,15 @@
 class PaintingsController < ApplicationController
-  before_action :set_painting, only: [:show, :update, :destroy]
-
+  before_action :set_painting, only: [:destroy]
+  #skip_before_action :verify_authenticity_token     
   def index
     @paintings = Painting.all
 
     render json: @paintings
   end
 
-  def show
-    render json: @painting
-  end
+  # def show
+  #   render json: @painting
+  # end
 
   def create
     @painting = Painting.new(painting_params)
@@ -21,13 +21,13 @@ class PaintingsController < ApplicationController
     end
   end
 
-  def update
-    if @painting.update(painting_params)
-      render json: @painting
-    else
-      render json: @painting.errors, status: :unprocessable_entity
-    end
-  end
+  # def update
+  #   if @painting.update(painting_params)
+  #     render json: @painting
+  #   else
+  #     render json: @painting.errors, status: :unprocessable_entity
+  #   end
+  # end
 
   def destroy
     @painting.destroy

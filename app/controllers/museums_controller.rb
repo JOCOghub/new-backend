@@ -1,5 +1,5 @@
 class MuseumsController < ApplicationController
-  before_action :set_museum, only: [:show, :update, :destroy]
+  before_action :set_museum, only: [:show, :destroy]
 
   def index
     @museums = Museum.all
@@ -21,13 +21,13 @@ class MuseumsController < ApplicationController
     end
   end
 
-  def update
-    if @museum.update(museum_params)
-      render json: @museum
-    else
-      render json: @museum.errors, status: :unprocessable_entity
-    end
-  end
+  # def update
+  #   if @museum.update(museum_params)
+  #     render json: @museum
+  #   else
+  #     render json: @museum.errors, status: :unprocessable_entity
+  #   end
+  # end
 
   def destroy
     @museum.destroy
